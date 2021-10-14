@@ -21,6 +21,7 @@ const Dashboard = () => {
     if(monedaRef.current.value === '') return;
     setDisableSubmit(true)
     // ...
+    //const idToken = await authCtx.currentUser.getIdToken();
     setDisableSubmit(false)
     nombreCuentaRef.current.value = '';
     tipoDeCuentaRef.current.value = '';

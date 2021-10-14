@@ -9,7 +9,25 @@ const AuthProvider = (props) => {
   const [loadingUserInfo, setLoadingUserInfo] = useState(true);
 
   const register = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+    return new Promise(async (resolve, reject) => {
+        try {
+          const credentials = await createUserWithEmailAndPassword(auth, email, password);
+          const idToken = await credentials.user.getIdToken();
+          const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/user`, {
+                                    method: 'POST',
+                                    headers: {
+                                      'Authorization': `Bearer ${idToken}`
+                                    }
+                                  });
+          const data = await response.json();
+          console.log(data);
+          resolve(data);
+        } catch(e) {
+          reject(e);
+        }
+    });
+    
+    
   }
 
   const login = (email, password) => {
